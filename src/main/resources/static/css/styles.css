@@ -1,0 +1,11 @@
+#navbar-fixed-bottom {
+    margin-top: 60px;
+    padding-top: 60px;
+
+}
+
+body > todo-app > div > p {
+    margin-top: 13px;
+    text-align: center;
+
+}

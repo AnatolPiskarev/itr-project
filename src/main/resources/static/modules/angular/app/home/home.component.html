@@ -1,0 +1,15 @@
+<div>
+    <h3>{{property.lastCreated}}:</h3>
+    <ul>
+
+        <li *ngFor="let scheme of schemeList">
+            <a href = "/{{scheme.name}}">
+                Created by {{scheme.user.pseudonym}}
+                <p>
+               Name: {{scheme.name}}
+               Category: {{scheme.category}}
+                </p>
+            </a>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,28 @@
+<html>
+<head>
+    <title>Angular 2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="modules/angular/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Polyfill(s) for older browsers -->
+    <script type="text/javascript" src="modules/js/jquery-1.12.4.min.js"></script>
+    <script src="modules/angular/node_modules/es6-shim/es6-shim.min.js"></script>
+    <script src="modules/angular/node_modules/zone.js/dist/zone.js"></script>
+    <script src="modules/angular/node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="modules/angular/node_modules/systemjs/dist/system.src.js"></script>
+    <script src="modules/angular/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="modules/angular/systemjs.config.js"></script>
+    <script>
+        System.import('app').catch(function(err){ console.error(err);  });
+    </script>
+
+
+</head>
+
+<body>
+<todo-app>Loading...</todo-app>
+</body>
+</html>

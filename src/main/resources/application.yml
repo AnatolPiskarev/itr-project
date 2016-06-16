@@ -1,0 +1,33 @@
+security:
+ user:
+        name: a
+        password: a
+#  oauth2:
+#    client:
+#      clientId: 1542889882685909
+#      clientSecret: 7e58efd8fb1689bfd47c633f563df80a
+#      accessTokenUri: https://graph.facebook.com/oauth/access_token
+#      userAuthorizationUri: https://www.facebook.com/dialog/oauth
+#      tokenName: oauth_token
+#      authenticationScheme: query
+#      clientAuthenticationScheme: form
+#    resource:
+#      userInfoUri: https://graph.facebook.com/me
+spring:
+    datasource:
+        password: root
+        testWhileIdle: true
+        url: jdbc:mysql://localhost:3306/mydb?autoReconnect=true&useSSL=false
+        username: root
+        validationQuery: SELECT 1
+    jpa:
+        hibernate:
+            ddl-auto: update
+            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5Dialect
+        show-sql: true
+    resources:
+        chain:
+            enabled: true
