@@ -1,5 +1,10 @@
 {
   "logout":"Выйти",
   "profile": "Мой Профиль",
-  "lastCreated": "Последние добавленные"
+  "lastCreated": "Последние добавленные",
+  "createdBy": "Автор",
+  "schemeName": "Название",
+  "category": "Категория",
+  "rate": "Рейтинг",
+  "topSchemeList": "Лучшие проекты"
 }

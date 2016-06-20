@@ -1,13 +1,28 @@
-<div>
+<div class="lastCreated">
     <h3>{{property.lastCreated}}:</h3>
     <ul>
 
-        <li *ngFor="let scheme of schemeList">
-            <a href = "/{{scheme.name}}">
-                Created by {{scheme.user.pseudonym}}
+        <li *ngFor="let schem of lastSchemes">
+            <a href = "/{{schem.user.pseudonym}}/{{schem.name}}">
+                <!--{{property.createdBy}}: {{schem.user.pseudonym}}-->
                 <p>
-               Name: {{scheme.name}}
-               Category: {{scheme.category}}
+               {{property.schemeName}}: {{schem.name}};
+               {{property.category}}: {{schem.category}}
+                </p>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="showTopSchemes">
+    <h3>{{property.topSchemeList}}:</h3>
+    <ul>
+        <li *ngFor="let top of topSchemes">
+            <a href ="#">
+                    {{property.createdBy}}: {{top.user.pseudonym}}
+                    {{property.schemeName}}: {{top.name}}
+                    {{property.category}}: {{top.category}}
+                <p>
+                    {{property.rate}}: {{top.rate}}
                 </p>
             </a>
         </li>

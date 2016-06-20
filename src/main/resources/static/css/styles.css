@@ -9,3 +9,14 @@ body > todo-app > div > p {
     text-align: center;
 
 }
+
+.lastCreated {
+    width:840px;
+    height:838px;
+    float:left;
+}
+.showTopSchemes {
+    width:540px;
+    height:838px;
+    float:right;
+}

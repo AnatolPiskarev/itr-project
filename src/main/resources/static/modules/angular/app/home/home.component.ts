@@ -12,14 +12,22 @@ import {Component, Input} from '@angular/core';
 })
 export class HomeComponent {
     @Input() property: any = {};
-    private schemeList: any = [{}];
+    private lastSchemes: any = [{}];
+    private topSchemes: any = [{}];
 
     constructor(private http:Http) {
         this.http.get("/last-created")
             .map(res => res.json())
             .subscribe((env_data) => {
-                this.schemeList = env_data;
-                console.log(this.schemeList);
+                this.lastSchemes = env_data;
+                console.log(this.lastSchemes);
+            });
+        this.http.get("/top-schemes")
+            .map(res => res.json())
+            .subscribe((env_data) => {
+                this.topSchemes = env_data;
+                console.log(this.topSchemes);
+                console.log(this.topSchemes[0].scheme.name)
             });
     }
 }

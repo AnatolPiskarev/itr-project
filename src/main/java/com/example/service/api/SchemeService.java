@@ -11,4 +11,5 @@ public interface SchemeService extends BaseService<Scheme> {
     List<Scheme> getByUserId(Long userId);
     List<Scheme> getByCategory(String category);
     List<Scheme> getLasts(int limit);
+    List<Scheme> getTop(int index, int count);
 }
