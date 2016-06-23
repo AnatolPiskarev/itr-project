@@ -1,0 +1,41 @@
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a>{{signIn}} :</a></li>
+                <li> <a href="#"><button type="button" class="btn btn-primary btn-block">Facebook</button></a></li>
+                <li> <a href="#"><button type="button" class="btn btn-info btn-block">Twitter</button></a></li>
+                <li>  <a href="#"><button type="button" class="btn btn-danger btn-block">Vk</button></a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li> <button type="button" class="btn btn-link"(click)="showScheme()">{{newProject}}</button></li>
+                <li><img class="img-responsive" src="#"></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle"
+                       data-toggle="dropdown"
+                       role="button"
+                       aria-haspopup="true"
+                       aria-expanded="false">
+                        {{profile}}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">link3</a></li>
+                    </ul>
+                </li>
+                <li><a href="/logout">{{logout}}</a></li>
+                <li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="navbar navbar-default navbar-fixed-bottom">
+    <p class="text-muted">created by Anatol Piskarev
+        <button type="button" class="btn btn-link"(click)="load('en')">En</button>| <button type="button" class="btn btn-link" (click)="load('ru')">Ru</button>
+    </p>
+</div>

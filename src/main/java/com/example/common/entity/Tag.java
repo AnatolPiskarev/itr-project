@@ -15,18 +15,6 @@ public class Tag extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String name;
-    @JsonIgnore
-    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
-    private Set<Scheme> schemes;
-
-    public Set<Scheme> getSchemes() {
-        return schemes;
-    }
-
-    public void setSchemes(Set<Scheme> schemes) {
-        this.schemes = schemes;
-    }
-
     public String getName() {
         return name;
     }

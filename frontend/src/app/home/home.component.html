@@ -1,0 +1,32 @@
+<div class="lastCreated">
+    <h3>{{lastCreated}}:</h3>
+    <ul>
+
+        <li *ngFor="let schem of lastSchemes">
+            <a href = "/{{schem?.user?.pseudonym}}/{{schem?.name}}">
+            {{createdBy}}: {{schem?.user?.pseudonym}}
+            <p>
+                {{schemeName}}: {{schem?.name}};
+                {{category}}: {{schem?.category}}
+            </p>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="showTopSchemes">
+    <h3> Top Schemes</h3>
+    <ul>
+        <li *ngFor="let schem of topSchemes">
+            <a href = "/{{schem?.user?.pseudonym}}/{{schem?.name}}">
+                {{createdBy}}: {{schem?.user?.pseudonym}}
+                <p>
+                    {{schemeName}}: {{schem?.name}};
+                    {{category}}: {{schem?.category}}
+                </p>
+                <h4>rate: {{schemeRates.get(schem)}}</h4>
+            </a>
+        </li>
+    </ul>
+
+</div>
+
