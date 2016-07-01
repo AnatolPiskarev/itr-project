@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
-
+import  {NgSwitch, NgSwitchCase, NgSwitchDefault} from  '@angular/common';
 import { ApiService } from './shared';
 
 import '../style/app.scss';
 import {HeaderComponent} from "./tiles/header.component";
+import {SchemeComponent} from "./drawing/scheme.component";
 
 /*
  * App Component
@@ -12,21 +13,20 @@ import {HeaderComponent} from "./tiles/header.component";
  */
 @Component({
   selector: 'my-app', // <my-app></my-app>
-  providers: [ApiService],
-  directives: [...ROUTER_DIRECTIVES, HeaderComponent],
+  providers: [ApiService], 
+    directives: [...ROUTER_DIRECTIVES, HeaderComponent],
   template: require('./app.component.html'),
   styles: [require('./styles.css')],
 })
 export class AppComponent {
   url = 'https://github.com/preboot/angular2-webpack';
-  private lang: string = 'ru';
+    private page: string  = 'init';
 
-  public test: string;
   constructor(private api: ApiService) {
-    console.log((this.lang));
-    this.test = 'test';
+      
  }
-  public load(lang: string) {
-    this.lang = lang;
-  }
+    showScheme() {
+        this.page= 'scheme';
+        console.log(this.page);
+    }
 }

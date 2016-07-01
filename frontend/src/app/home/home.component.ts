@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component,  OnInit} from '@angular/core';
 import {Http} from "@angular/http";
 import 'rxjs/add/operator/map';
 import Scheme from "../dto/Scheme";
@@ -19,18 +19,22 @@ export class HomeComponent {
     private topSchemes:Array<Scheme> = [];
     private category:string = 'category';
     private createdBy:string = 'createdBy';
-    private schemeName:string = "Name";
-    private lastCreated:string = 'Last created';
     private schemeRates: Map<Scheme, number> = new Map<Scheme, number>();
 
 
 
     constructor(private http:Http) {
+
+    }
+    ngOnInit() {
+        //noinspection TypeScriptUnresolvedFunction
         this.http.get("/last-created")
             .map(res => res.json())
             .subscribe((env_data) => {
+                console.log(env_data);
                 this.lastSchemes = this.getSchemes(env_data);
             });
+        //noinspection TypeScriptUnresolvedFunction
         this.http.get("/top-schemes")
             .map(res => res.json())
             .subscribe((env_data) => {

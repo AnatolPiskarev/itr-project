@@ -4,24 +4,3 @@
 
 }
 
-#schemePage {
-    width:960px;
-    height:490px;
-    background:
-            linear-gradient(
-                    mediumvioletred, transparent 1px
-            ),
-            linear-gradient(
-                    90deg,
-                    mediumvioletred, transparent 1px
-            );
-    background-size: 10px 10px;
-    background-position: center center;
-    border: 2px solid mediumvioletred;
-}
-#element {
-    height: 100px;
-    width: 100px;
-    padding: 1em;
-    display: inline-block;
-}

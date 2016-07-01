@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter,  Output} from '@angular/core';
 import TranslationService from '../config/TranslationService';
 @Component({
     selector: 'header-app',
@@ -7,7 +7,7 @@ import TranslationService from '../config/TranslationService';
 
 })
 export class HeaderComponent {
-    @Input() test: string;
+    @Output() showSchemeSignal = new EventEmitter();
     private lang: string = 'ru';
     private newProject: string;
     private profile: string;
@@ -16,9 +16,6 @@ export class HeaderComponent {
     private scheme: string = 'scheme';
     constructor() {
       this.load(this.lang);
-        console.log(this.test);
-        console.log(this.newProject);
-        console.log(this.logout);
     }
     public load(lang:string) {
         this.lang = lang;
@@ -27,5 +24,8 @@ export class HeaderComponent {
         this.profile = TranslationService.get('profile', this.lang);
         this.logout = TranslationService.get('logout', this.lang);
         this.signIn = TranslationService.get('signIn', this.lang);
+    }
+    public showScheme() {
+        this.showSchemeSignal.emit(this.scheme);
     }
 }

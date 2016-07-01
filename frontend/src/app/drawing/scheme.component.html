@@ -1,0 +1,25 @@
+
+<div id="vis">
+</div>
+<div id="elements">
+  <ul>
+    <li>
+    <button type="button" class="btn btn-primary" (click)="drawLine()"><img src="http://www.megaicons.net/static/img/icons_sizes/8/178/256/image-edition-tools-line-icon.png" width="50px" height="50px"></button>
+    </li>
+    <li>
+      <button type="button" class="btn btn-primary" (click)="enableDragEvent()"><img src="https://cdn2.iconfinder.com/data/icons/hand-gestures/32/gesture-finger-directions-512.png" width="50px" height="50px"></button>
+    </li>
+    <li>
+      <button type="button" class="btn btn-primary" (click)="deleteElements()"><img src="https://cdn3.iconfinder.com/data/icons/tools-solid-icons-vol-2/72/59-512.png" width="50px" height="50px"></button>
+    </li>
+      <li>
+      <button type="button" class="btn btn-primary" (click)="save()"><img src="http://www.endlessicons.com/wp-content/uploads/2013/04/save-icon-614x460.png" width="50px" height="50px"></button>
+    </li>
+    <li>
+    <button type="button" class="btn btn-primary" (click)="drawNode()"><img src="http://cdn.onlinewebfonts.com/svg/img_358586.svg" width="50px" height="50px"></button>
+    </li>
+    <li  *ngFor="let path of elementPath">
+      <button type="button" class="btn btn-primary" (click)="loadElement(path, 0)"><img src="{{path}}" width="50px" height="50px"></button>
+    </li>
+  </ul>
+</div>
