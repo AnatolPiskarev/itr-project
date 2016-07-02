@@ -2,89 +2,121 @@ import User from "./User";
 import SchemeRating from "./SchemeRating";
 import ElementCoordinates from "./ElementCoordinates";
 import Tag from "./Tag";
+import Line from "./Line";
 export default class Scheme {
-    private id: number;
-    private user: User;
-    private name: string;
-    private description: string;
-    private category: string;
-    private creationDate: number;
-    private rates: SchemeRating[];
-    private elements: ElementCoordinates[];
-    private tags: Tag[];
-    constructor(id:number, user:User, name: string, description:string, category:string, creationDate: number, rates:SchemeRating[], elements:ElementCoordinates[], tags:Tag[]) {
-        this.id = id;
-        this.user = user;
-        this.name = name;
-        this.description = description;
-        this.category = category;
-        this.creationDate = creationDate;
-        this.rates = rates;
-        this.elements = elements;
-        this.tags = tags;
-    }
+    private _id: number;
+    private _user: User;
+    private _name: string;
+    private _description: string;
+    private _category: string;
+    private _creationDate: number;
+    private _rates: SchemeRating[];
+    private _elements:Array<ElementCoordinates>;
+    private _tags:  Array<Tag>;
+    private _lines: Array<Line>;
+  //  private _nodes: Array<Node>;
 
+  constructor(id:number, user:User, name:string, description:string, category:string, creationDate:number,
+              rates:SchemeRating[], elements:Array<ElementCoordinates>, tags:Array<Tag>, lines:Array<Line>,
+              nodes:Array<Node>) {
+    this._id = id;
+    this._user = user;
+    this._name = name;
+    this._description = description;
+    this._category = category;
+    this._creationDate = creationDate;
+    this._rates = rates;
+    this._elements = elements;
+    this._tags = tags;
+    this._lines = lines;
+   // this._nodes = nodes;
+  }
 
-    public getId():number {
-        return this.id;
-    }
+  get id():number{
+      return this._id;
+      }
 
-    public setId(value:number) {
-        this.id = value;
-    }
+  set id(value:number){
+      this._id=value;
+      }
 
-    public  getUser():User {
-        return this.user;
-    }
-    public getName():string {
-        return this.name;
-    }
-    public setName(value:string) {
-        this.name = value;
-    }
+  get user():User{
+      return this._user;
+      }
 
+  set user(value:User){
+      this._user=value;
+      }
 
-    public setUser(value:User) {
-        this.user = value;
-    }
+  get name():string{
+      return this._name;
+      }
 
-    public getCategory():string {
-        return this.category;
-    }
-    
-    public setCategory(value:string) {
-        this.category = value;
-    }
-    
-    public getCreationDate():number {
-        return this.creationDate;
-    }
-    
-    public setCreationDate(value:number) {
-        this.creationDate = value;
-    }
+  set name(value:string){
+      this._name=value;
+      }
 
-    public getRates():SchemeRating[] {
-        return this.rates;
-    }
+  get description():string{
+      return this._description;
+      }
 
-    public setRates(value:Array<SchemeRating>) {
-        this.rates = value;
-    }
+  set description(value:string){
+      this._description=value;
+      }
 
-    public geElements():ElementCoordinates[] {
-        return this.elements;
-    }
-    
-    public setElements(value:Array<ElementCoordinates>) {
-        this.elements = value;
-    }
-    
-    public getTags():Tag[] {
-        return this.tags;
-    }
-    
-    public setTags(value:Array<Tag>) {
-        this.tags = value;
-    }
+  get category():string{
+      return this._category;
+      }
+
+  set category(value:string){
+      this._category=value;
+      }
+
+  get creationDate():number{
+      return this._creationDate;
+      }
+
+  set creationDate(value:number){
+      this._creationDate=value;
+      }
+
+  get rates():SchemeRating[]{
+      return this._rates;
+      }
+
+  set rates(value:Array){
+      this._rates=value;
+      }
+
+  get elements():Array<ElementCoordinates>{
+      return this._elements;
+      }
+
+  set elements(value:Array<ElementCoordinates>){
+      this._elements=value;
+      }
+
+  get tags():Array<Tag>{
+      return this._tags;
+      }
+
+  set tags(value:Array<Tag>){
+      this._tags=value;
+      }
+
+  get lines():Array<Line>{
+      return this._lines;
+      }
+
+  set lines(value:Array<Line>){
+      this._lines=value;
+      }
+
+  // get nodes():Array<Node>{
+  //     return this._nodes;
+  //     }
+  //
+  // set nodes(value:Array<Node>){
+  //     this._nodes=value;
+  //     }
 }

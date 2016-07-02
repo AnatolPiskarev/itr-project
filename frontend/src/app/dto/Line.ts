@@ -1,6 +1,5 @@
 import Scheme from "./Scheme";
 export default class Line {
-  private _scheme:Scheme;
   private _id: number;
   private _xBeginCoordinate: number;
   private _yBeginCoordinate: number;
@@ -14,14 +13,6 @@ export default class Line {
   set id(value:number){
     this._id=value;
   }
-
-  get scheme():Scheme{
-      return this._scheme;
-      }
-
-  set scheme(value:Scheme){
-      this._scheme=value;
-      }
 
   get xBeginCoordinate():number{
       return this._xBeginCoordinate;

@@ -7,7 +7,7 @@ export const routes: RouterConfig = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'draw-scheme', component: SchemeComponent },
-  { path: ':user', component: SchemeComponent }
+  { path: ':user/:scheme', component: SchemeComponent }
 ];
 
 export const APP_ROUTER_PROVIDERS = [

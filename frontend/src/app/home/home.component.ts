@@ -55,7 +55,7 @@ export class HomeComponent {
             let tags:Array<Tag> = this.getTags(env_data[i].tags);
             let elements: Array<ElementCoordinates> = this.getElementCoordinates(env_data[i].elements);
             let scheme:Scheme = new Scheme(env_data[i].id, user, env_data[i].name, env_data[i].description,
-                env_data[i].category, env_data[i].creationDate, rates, elements, tags);
+                env_data[i].category, env_data[i].creationDate, rates, elements, tags, null, null);
             schemes.push(scheme);
         }
         return schemes;
@@ -104,7 +104,7 @@ export class HomeComponent {
     }
     
     getSchemeCurrentRate(scheme:Scheme): number {
-        let rates: Array<SchemeRating> = scheme.getRates();
+        let rates: Array<SchemeRating> = scheme.rates;
 
         let rate: number  = 0;
         for(var i in rates)

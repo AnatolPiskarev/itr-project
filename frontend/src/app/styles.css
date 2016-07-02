@@ -22,15 +22,16 @@
     height:490px;
     background:
             linear-gradient(
-                    mediumvioletred, transparent 1px
+                    black, transparent 1px
             ),
             linear-gradient(
                     90deg,
-                    mediumvioletred, transparent 1px
+                    black, transparent 1px
             );
     background-size: 10px 10px;
     background-position: center center;
-    border: 2px solid mediumvioletred;
+    border: 2px solid navajowhite;
+
 }
 #element {
     height: 100px;

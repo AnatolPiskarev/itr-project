@@ -5,7 +5,16 @@ export default class ElementCoordinates {
     private _xCoordinate: number;
     private _yCoordinate: number;
     private _rotation: string;
+    private _text: string;
 
+
+  get text():string{
+      return this._text;
+      }
+
+  set text(value:string){
+      this._text=value;
+      }
 
   get id():number{
       return this._id;

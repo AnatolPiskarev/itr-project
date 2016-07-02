@@ -13,7 +13,7 @@ import {SchemeComponent} from "./drawing/scheme.component";
  */
 @Component({
   selector: 'my-app', // <my-app></my-app>
-  providers: [ApiService], 
+  providers: [ApiService],
     directives: [...ROUTER_DIRECTIVES, HeaderComponent],
   template: require('./app.component.html'),
   styles: [require('./styles.css')],
@@ -23,7 +23,7 @@ export class AppComponent {
     private page: string  = 'init';
 
   constructor(private api: ApiService) {
-      
+
  }
     showScheme() {
         this.page= 'scheme';

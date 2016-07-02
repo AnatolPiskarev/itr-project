@@ -1,6 +1,6 @@
 import "rxjs/add/operator/map";
 import {Component, ElementRef, ViewChild, AfterViewInit} from '@angular/core';
-import {Http} from "@angular/http";
+import {Http,  Headers, RequestOptions} from "@angular/http";
 
 import * as d3 from 'd3';
 import {Element} from "../dto/Element";
@@ -8,13 +8,19 @@ import drag = d3.behavior.drag;
 import rotation = d3.geo.rotation;
 import ElementCoordinates from "../dto/ElementCoordinates";
 import Line from "../dto/Line";
+import Scheme from "../dto/Scheme";
+import {saveSchemeComponent} from "./saveScheme.component";
+import Node from "../dto/Node";
+import Tag from "../dto/Tag";
 @Component({
     selector: 'scheme',
     template: require('./scheme.component.html'),
     styles: [require('./scheme.component.scss')],
+    directives: [saveSchemeComponent]
 })
 export class SchemeComponent implements AfterViewInit {
-  @ViewChild("myCanvas") myCanvas;
+ private showSavePage: boolean = false;
+ private showCanvas: boolean = true;
   private width: number = 1000;
   private height: number = 490;
   private startX = 900;
@@ -27,13 +33,13 @@ export class SchemeComponent implements AfterViewInit {
   private yPos: number = 0;
   private currentElement: any;
   private currentLine: any;
+  private currentNode: any;
   private elementId = 0;
   private lineId = 0;
-  private schemeElements: Array<ElementCoordinates> =[];
-  private schemeLines: Array<Line> = [];
-
-
-  constructor(private http:Http) {
+  private nodeId = 0;
+  private nodeId = 0;
+  private workPanel: string;
+   constructor(private http:Http) {
     this.getElements();
   }
 
@@ -47,38 +53,74 @@ export class SchemeComponent implements AfterViewInit {
         "linear-gradient(90deg, mediumvioletred, transparent 1px);" +
         "background-size: 10px 10px; background-position: center center; border: 2px solid mediumvioletred;");
   }
-  public getElements() {
-    //noinspection TypeScriptUnresolvedFunction
-    this.http.get("/get-elements")
-      .map(res => res.json())
-      .subscribe((env_data) => {
-        console.log(env_data);
-        this.elements = this.subscribeElements(env_data);
-      });
+
+  public showElements() {
+    if(this.workPanel=="elements")
+      this.workPanel = "";
+    else this.workPanel = "elements";
   }
-  public getElementByPath(path: string): Element {
+  public showInstruments() {
+    if(this.workPanel=="instruments")
+      this.workPanel = "";
+    else this.workPanel = "instruments";
+  }
+
+  public getElementByName(name: string): Element {
     for(var i in this.elements) {
-      if(this.elements[i].path ==path){
+      if(this.elements[i].name == name){
         return this.elements[i];
       }
     }
   }
 
   public save() {
-    debugger
-   let elementList:Array<any> = this.svg.selectAll(".element").data();
-    for(var i in elementList) {
-     let  element: ElementCoordinates  = new ElementCoordinates();
-      element.rotation = elementList[i].rotation;
-      element.xCoordinate = elementList[i].x;
-      element.yCoordinate = elementList[i].y;
-      element.element = this.getElementByPath(elementList[i].path)
-      this.schemeElements.push(element);
+      this.showSavePage = true;
+      this.showCanvas = false;
+  }
+
+  public getNodesFromScheme(): Array<Node> {
+    let nodes: Array<Node> = []
+    let nodeList:Array<any> = this.svg.selectAll(".node").data();
+    for(var i in nodeList) {
+      let node: Node = new Node();
+      node.xCoordinate = nodeList[i].x;
+      node.yCoordinate = nodeList[i].y;
     }
+    return nodes;
+  }
+
+  public getLinesFromScheme(): Array<Line> {
+    let lines:  Array<Line> = [];
+    let lineList:Array<any> = this.svg.selectAll(".line").data();
+    for(var i in lineList) {
+      let line: Line = new Line();
+      line.xBeginCoordinate = lineList[i].startX;
+      line.yBeginCoordinate = lineList[i].startY;
+      line.xEndCoordinate = lineList[i].endX;
+      line.yEndCoordinate = lineList[i].endY;
+      lines.push(line);
+    }
+
+    return lines;
 
   }
 
+  public getElementsFromScheme(): Array<ElementCoordinates> {
+    let elements: Array<ElementCoordinates> =[];
+    let elementList:Array<any> = this.svg.selectAll(".element").data();
+    for(var i in elementList) {
+      let element:ElementCoordinates = new ElementCoordinates();
+      element.rotation = elementList[i].rotation;
+      element.xCoordinate = elementList[i].x;
+      element.yCoordinate = elementList[i].y;
+      element.element = this.getElementByName(elementList[i].class +".png");
+      elements.push(element);
+    }
+    return elements;
+  }
+
   public loadElement(path: string) {
+    this.workPanel = "instruments";
     this.createBoard();
     this.disableSvgClick();
     let rotationCounter: number = 0;
@@ -149,22 +191,50 @@ export class SchemeComponent implements AfterViewInit {
   public drawNode() {
     this.svg
       .on("click", (d, i) => {
-      //noinspection TypeScriptUnresolvedVariable
-        this.svg.append("circle")
-        .attr("cx", d3.mouse(d3.event.currentTarget)[0])
-        .attr("cy", d3.mouse(d3.event.currentTarget)[1])
-        .attr("r", 5);
+        //noinspection TypeScriptUnresolvedVariable
+        let x = d3.mouse(d3.event.currentTarget)[0];
+        //noinspection TypeScriptUnresolvedVariable
+        let y = d3.mouse(d3.event.currentTarget)[1];
+        this.createNode(x,y);
+        this.disableSvgClick();
       });
+
+  }
+  public createNode(cx, cy) {
+      this.nodeId++;
+     var node =  this.svg.append("circle")
+        .data([ { "id":"node"+this.nodeId, "class": "node", "x": cx, "y": cy}])
+        .attr("cx", cx)
+        .attr("cy", cy)
+        .attr("r", 5)
+        .attr("id","node"+this.nodeId)
+        .attr("class", "node")
+        .on("click", (d,i) => {
+          this.currentNode = d;
+        })
+        .on("mouseover", (d,i) => {
+          node
+            .attr("r", 8)
+        })
+        .on("mouseout", (d,i) => {
+          node
+            .attr("r", 5)
+        });
   }
   public  drawLine() {
+    this.currentElement=null;
+    this.currentLine=null;
+    this.currentNode=null;
    let  coords: Array<number> = [];
    this.svg.on("click", (d,i) => {
-     console.log(this.currentElement)
           //noinspection TypeScriptUnresolvedVariable
           this.xPos = d3.mouse(d3.event.currentTarget)[0];
           //noinspection TypeScriptUnresolvedVariable
           this.yPos =  d3.mouse(d3.event.currentTarget)[1];
-        let elementCoords:Array<number> =this.getLineEndCoordinates(this.currentElement);
+           var element = this.currentElement;
+           if(element==null) element = this.currentLine;
+           if(element==null) element = this.currentNode;
+        let elementCoords:Array<number> =this.getLineEndCoordinates(element);
         //noinspection TypeScriptUnresolvedVariable
        coords.push(elementCoords[0], elementCoords[1]);
         if(coords.length==4) {
@@ -173,6 +243,8 @@ export class SchemeComponent implements AfterViewInit {
           this.elementOut = [];
           this.disableSvgClick();
         }
+     this.currentElement=null;
+     this.currentLine=null;
           });
   }
   public subscribeElements(data:any) {
@@ -213,12 +285,10 @@ public dragElements():any {
     }) //-when you first click
     .on("drag", dragmove) //-when you're dragging
     .on("dragend", (d, i) => {
-      //noinspection TypeScriptUnresolvedVariable
-      d.fixed = true});
+    });
 
   function dragmove(d, i) //-updates the co-ordinates
   {
-
     // noinspection TypeScriptUnresolvedVariable
     d.x += d3.event.dx;
     //noinspection TypeScriptUnresolvedVariable
@@ -240,31 +310,52 @@ public dragElements():any {
   }
   public checkLineCoords(coords) {
 
-    if (this.elementOut[0] == this.elementOut[1] && this.elementOut[0]== "left" ||
-        this.elementOut[0] == this.elementOut[1] && this.elementOut[0]== "right") {
+    if (this.elementOut[0] == this.elementOut[1] && this.elementOut[0] == "left" ||
+      this.elementOut[0] == this.elementOut[1] && this.elementOut[0] == "right") {
       this.createVerticalLineBetweenOuts(coords)
     }
-    else if(this.elementOut[0] == this.elementOut[1] && this.elementOut[0]==  "up" ||
-      this.elementOut[0] == this.elementOut[1] && this.elementOut[0]==  "down") {
+    else if (this.elementOut[0] == this.elementOut[1] && this.elementOut[0] == "up" ||
+      this.elementOut[0] == this.elementOut[1] && this.elementOut[0] == "down") {
       this.createHorizontalLineBetweenOuts(coords)
     }
-    else if(this.elementOut[0]== "left" && this.elementOut[1]== "right" ||
-      this.elementOut[0]== "right" && this.elementOut[1]== "left") {
+    else if (this.elementOut[0] == "left" && this.elementOut[1] == "right" ||
+      this.elementOut[0] == "right" && this.elementOut[1] == "left") {
       this.createLineWithOffsetY(coords);
     }
-    else if(this.elementOut[0]== "down" && this.elementOut[1]== "up" ||
-      this.elementOut[0]== "up" && this.elementOut[1]== "down") {
+    else if (this.elementOut[0] == "down" && this.elementOut[1] == "up" ||
+      this.elementOut[0] == "up" && this.elementOut[1] == "down") {
       this.createLineWithOffsetX(coords)
     }
-    else if(this.elementOut[0]== "down" || this.elementOut[0]== "up" &&
-            this.elementOut[1]== "left" || this.elementOut[1]== "right") {
-      this.createCornerLine(coords);
+    else if (this.elementOut[0] == "down" || this.elementOut[0] == "up") {
+      if (this.elementOut[1] == "left" || this.elementOut[1] == "right") {
+        this.createCornerLine(coords);
+      }
     }
-    else if(this.elementOut[0]== "left" || this.elementOut[0]== "right" &&
-      this.elementOut[1]== "down" || this.elementOut[1]== "up") {
-      coords = this.replaceCoords(coords);
-      this.createCornerLine(coords);
+    else if (this.elementOut[0] == "left" || this.elementOut[0] == "right") {
+      if (this.elementOut[1] == "down" || this.elementOut[1] == "up") {
+        coords = this.replaceCoords(coords);
+        this.createCornerLine(coords);
+      }
     }
+    if (this.elementOut[0] == "node" || this.elementOut[1] == "node") {
+        if (this.elementOut[0] == "node") {
+          this.replaceCoords(coords);
+        }
+        if (Math.abs(coords[0] - coords[2]) > Math.abs(coords[1] - coords[3])) {
+          coords[3] = coords[1]
+        }
+        else if (Math.abs(coords[0] - coords[2]) < Math.abs(coords[1] - coords[3])) {
+          coords[2] = coords[0]
+        }
+        this.createLineToNode(coords)
+      }
+      else this.createLine(coords);
+
+  }
+  public createLineToNode(coords) {
+    this.svg.select("#"+this.currentNode.id).remove();
+    this.createLine(coords);
+    this.createNode(coords[2], coords[3])
   }
   public replaceCoords(coords: Array<number>): Array<number> {
     let endX = coords[2];
@@ -407,22 +498,29 @@ public dragElements():any {
 
   }
 public createLine(coords:Array<number>) {
-  debugger
   this.lineId++
     var line = this.svg.append("line")
-        .data([ {"deleted": false, "id":"line"+this.lineId, "startX":coords[0], "startY": coords[1],
+        .data([ {"deleted": false, "class": "line", "id":"line"+this.lineId, "startX":coords[0], "startY": coords[1],
                 "endX": coords[2], "endY": coords[3]}])
         .style("stroke", "black")  // colour the line
-        .style("stroke-width", 2.5)
+        .style("stroke-width", 3)
         .attr("x1", coords[0])     // x position of the first end of the line
         .attr("y1", coords[1])      // y position of the first end of the line
         .attr("x2", coords[2])     // x position of the second end of the line
         .attr("y2", coords[3])
         .attr("id", "line" + this.lineId)
-        .attr("class", "element line")
+        .attr("class", "line")
         .on("click", (d,i) => {
           this.currentLine = d;
         })
+      .on("mouseover", (d,i) => {
+       line
+         .style("stroke-width", 5.5)
+      })
+      .on("mouseout", (d,i) => {
+        line
+          .style("stroke-width", 2.5)
+      });
 
     }
   public  getElementName(path: string): string {
@@ -432,7 +530,7 @@ public createLine(coords:Array<number>) {
 
   public getLineEndCoordinates(element: any):Array<number> {
     let coords: Array<number> =[];
-  let imageCenter: number = 40;
+  let imageCenter: number = 39.5;
     if(element.class=="r" || element.class=="c" ||element.class=="l") {
       if(element.rotation=="left") {
         let x:number = this.startX+element.x+imageCenter;
@@ -481,6 +579,13 @@ public createLine(coords:Array<number>) {
         }
       }
     }
+    else if(element.class=="node"){
+      coords.push(element.x,element.y);
+      this.elementOut.push("node")
+    }  else if(element.class=="line"){
+      coords.push(this.xPos, this.yPos);
+      this.elementOut.push("line")
+    }
   return coords;
   }
 
@@ -493,11 +598,41 @@ public createLine(coords:Array<number>) {
   public deleteElements() {
     this.currentElement=null;
     this.currentLine=null;
+    this.currentNode=null;
+
     this.svg
       .on("click", (d,i) => {
         this.svg.select("#"+this.currentElement.id).remove();
         this.svg.select("#"+this.currentLine.id).remove();
+        this.svg.select("#"+this.currentNode.id).remove();
       })
+  }
+  public getElements() {
+    //noinspection TypeScriptUnresolvedFunction
+    this.http.get("/get-elements")
+      .map(res => res.json())
+      .subscribe((env_data) => {
+        this.elements = this.subscribeElements(env_data);
+      });
+  }
+  public  createScheme(scheme: Scheme) {
+    scheme.elements = this.getElementsFromScheme()
+    scheme.lines = this.getLinesFromScheme();
+    // scheme.nodes =this.getNodesFromScheme();
+    this.saveScheme(scheme);
+  }
 
+  public saveScheme(scheme: Scheme) {
+    debugger
+   let  tag: Tag = new Tag(1,"hui")
+    let saveUrl = "/save-scheme"
+    let body = JSON.stringify(tag);
+    //noinspection TypeScriptUnresolvedFunction
+    this.http.post(saveUrl, body)
+      .map(res => res.json())
+      .subscribe((env_data) => {
+        debugger
+        console.log(env_data)
+      });
   }
 }
