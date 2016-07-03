@@ -1,48 +1,48 @@
 import Scheme from "./Scheme";
 export default class Line {
-  private _id: number;
-  private _xBeginCoordinate: number;
-  private _yBeginCoordinate: number;
-  private _xEndCoordinate: number;
-  private _yEndCoordinate: number;
-  
-  get id():number{
-    return this._id;
+  private id: number;
+  private xBeginCoordinate: number;
+  private yBeginCoordinate: number;
+  private xEndCoordinate: number;
+  private yEndCoordinate: number;
+
+  getId():number{
+    return this.id;
   }
 
-  set id(value:number){
-    this._id=value;
+  setId(value:number){
+    this.id=value;
   }
 
-  get xBeginCoordinate():number{
-      return this._xBeginCoordinate;
+  getXBeginCoordinate():number{
+      return this.xBeginCoordinate;
       }
 
-  set xBeginCoordinate(value:number){
-      this._xBeginCoordinate=value;
+  setXBeginCoordinate(value:number){
+      this.xBeginCoordinate=value;
       }
 
-  get yBeginCoordinate():number{
-      return this._yBeginCoordinate;
+  getYBeginCoordinate():number{
+      return this.yBeginCoordinate;
       }
 
-  set yBeginCoordinate(value:number){
-      this._yBeginCoordinate=value;
+  setYBeginCoordinate(value:number){
+      this.yBeginCoordinate=value;
       }
 
-  get xEndCoordinate():number{
-      return this._xEndCoordinate;
+  getXEndCoordinate():number{
+      return this.xEndCoordinate;
       }
 
-  set xEndCoordinate(value:number){
-      this._xEndCoordinate=value;
+  setXEndCoordinate(value:number){
+      this.xEndCoordinate=value;
       }
 
-  get yEndCoordinate():number{
-      return this._yEndCoordinate;
+  getYEndCoordinate():number{
+      return this.yEndCoordinate;
       }
 
-  set yEndCoordinate(value:number){
-      this._yEndCoordinate=value;
+  setYEndCoordinate(value:number){
+      this.yEndCoordinate=value;
       }
 }

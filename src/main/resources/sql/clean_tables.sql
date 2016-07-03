@@ -1,14 +1,4 @@
- ALTER TABLE element_coordinates drop foreign key element_coordinates_ibfk_1;
- ALTER TABLE element_coordinates drop foreign key element_coordinates_ibfk_2;
- ALTER TABLE line drop foreign key line_ibfk_1;
- ALTER TABLE achieve drop foreign key achieve_ibfk_1;
- ALTER TABLE comment drop foreign key comment_ibfk_1;
- ALTER TABLE comment drop foreign key comment_ibfk_2;
- ALTER TABLE comment_like drop foreign key comment_like_ibfk_1;
- ALTER TABLE scheme_rating drop foreign key scheme_rating_ibfk_1;
- ALTER TABLE scheme drop foreign key scheme_ibfk_1;
- ALTER TABLE tag_scheme drop foreign key tag_scheme_ibfk_1;
- ALTER TABLE tag_scheme drop foreign key tag_scheme_ibfk_2;
+SET foreign_key_checks = 0;
  truncate table tag;
  truncate table element_coordinates;
  truncate table comment_like;
@@ -20,15 +10,5 @@
  truncate table user;
  truncate table element;
  truncate table tag_scheme;
-ALTER TABLE element_coordinates ADD FOREIGN KEY element_coordinates_ibfk_1 (element_id) REFERENCES element (id);
-ALTER TABLE element_coordinates ADD FOREIGN KEY element_coordinates_ibfk_2 (scheme_id) REFERENCES scheme (id);
-ALTER TABLE line ADD FOREIGN KEY line_ibfk_1 (scheme_id) REFERENCES scheme (id);
-ALTER TABLE comment ADD FOREIGN KEY comment_ibfk_1 (scheme_id) REFERENCES scheme (id);
-ALTER TABLE comment ADD FOREIGN KEY comment_ibfk_2 (user_id) REFERENCES user (id);
-ALTER TABLE achieve ADD FOREIGN KEY achieve_ibfk_1 (user_id) REFERENCES user (id);
-ALTER TABLE comment_like ADD FOREIGN KEY comment_like_ibfk_1 (comment_id) REFERENCES comment (id);
-ALTER TABLE scheme_rating ADD FOREIGN KEY scheme_rating_ibfk_1 (scheme_id) REFERENCES scheme (id);
-ALTER TABLE scheme ADD FOREIGN KEY scheme_ibfk_1 (user_id) REFERENCES user (id);
- ALTER TABLE tag_scheme ADD FOREIGN KEY tag_scheme_ibfk_1 (tag_id) REFERENCES tag (id);
- ALTER TABLE tag_scheme ADD FOREIGN KEY tag_scheme_ibfk_2 (scheme_id) REFERENCES scheme (id);
+SET foreign_key_checks = 1;
 

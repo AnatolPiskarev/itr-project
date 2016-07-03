@@ -1,27 +1,23 @@
-package com.example.Controller;
+package com.example.controller.schemeController;
 import com.example.common.entity.Element;
 import com.example.common.entity.Scheme;
-import com.example.common.entity.Tag;
 import com.example.service.api.ElementService;
 import com.example.service.api.SchemeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.support.ResourcePatternUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 public class SchemeController {
     @Autowired
   private  ResourceLoader resourceLoader;
- //   private SchemeService schemeService;
+    private SchemeService schemeService;
     @Autowired
     private ElementService elementService;
 
@@ -29,11 +25,11 @@ public class SchemeController {
     public List<Element> getElements() {
         return elementService.findAll();
     }
-    @ResponseBody
+
     @RequestMapping(value = "/save-scheme", method = RequestMethod.POST)
-    public String saveScheme(@RequestBody Tag scheme) {
-        System.out.println(scheme.getName());
-        return"good";
+    public Scheme saveScheme(@RequestBody Scheme scheme) {
+        scheme = schemeService.save(scheme);
+        return scheme;
     }
 
     @RequestMapping(value = "/update-elements")

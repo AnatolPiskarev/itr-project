@@ -12,5 +12,5 @@ import java.util.List;
  */
 @Transactional
 public interface LineDao extends BaseDao<Line> {
- List<Line> findByScheme(Scheme scheme);
+ List<Line> findBySchemeId(Long schemeId);
 }

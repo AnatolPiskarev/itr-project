@@ -1,58 +1,65 @@
 import {Element} from "./Element";
 export default class ElementCoordinates {
-    private _id: number;
-    private _element: Element;
-    private _xCoordinate: number;
-    private _yCoordinate: number;
-    private _rotation: string;
-    private _text: string;
+    private id: number;
+    private schemeId: number;
+    private element: Element;
+    private xCoordinate: number;
+    private yCoordinate: number;
+    private rotation: string;
+    private text: string;
 
-
-  get text():string{
-      return this._text;
+    getText():string{
+      return this.text;
       }
 
-  set text(value:string){
-      this._text=value;
+  setText(value:string){
+      this.text=value;
       }
 
-  get id():number{
-      return this._id;
+  getId():number{
+      return this.id;
       }
 
-  set id(value:number){
-      this._id=value;
+  setId(value:number){
+      this.id=value;
+      }
+  getSchemeId():number{
+    return this.schemeId;
+  }
+
+  setSchemeId(value:number){
+    this.schemeId=value;
+  }
+
+  getElement():Element{
+      return this.element;
       }
 
-  get element():Element{
-      return this._element;
+  setElement(value:Element){
+      this.element=value;
       }
 
-  set element(value:Element){
-      this._element=value;
+  getXCoordinate():number{
+      return this.xCoordinate;
       }
 
-  get xCoordinate():number{
-      return this._xCoordinate;
+  setXCoordinate(value:number){
+      this.xCoordinate=value;
       }
 
-  set xCoordinate(value:number){
-      this._xCoordinate=value;
+  getYCoordinate():number{
+      return this.yCoordinate;
       }
 
-  get yCoordinate():number{
-      return this._yCoordinate;
+  setYCoordinate(value:number){
+      this.yCoordinate=value;
       }
 
-  set yCoordinate(value:number){
-      this._yCoordinate=value;
+  getRotation():string{
+      return this.rotation;
       }
 
-  get rotation():string{
-      return this._rotation;
-      }
-
-  set rotation(value:string){
-      this._rotation=value;
+  setRotation(value:string){
+      this.rotation=value;
       }
 }

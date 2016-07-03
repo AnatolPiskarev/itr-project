@@ -3,120 +3,121 @@ import SchemeRating from "./SchemeRating";
 import ElementCoordinates from "./ElementCoordinates";
 import Tag from "./Tag";
 import Line from "./Line";
+import Node from "./Node";
 export default class Scheme {
-    private _id: number;
-    private _user: User;
-    private _name: string;
-    private _description: string;
-    private _category: string;
-    private _creationDate: number;
-    private _rates: SchemeRating[];
-    private _elements:Array<ElementCoordinates>;
-    private _tags:  Array<Tag>;
-    private _lines: Array<Line>;
-  //  private _nodes: Array<Node>;
+    private id: number;
+    private user: User;
+    private name: string;
+    private description: string;
+    private category: string;
+    private creationDate: number;
+    private rates: SchemeRating[];
+    private elements:Array<ElementCoordinates>;
+    private tags:  Array<Tag>;
+    private lines: Array<Line>;
+    private nodes: Array<Node>;
 
   constructor(id:number, user:User, name:string, description:string, category:string, creationDate:number,
               rates:SchemeRating[], elements:Array<ElementCoordinates>, tags:Array<Tag>, lines:Array<Line>,
               nodes:Array<Node>) {
-    this._id = id;
-    this._user = user;
-    this._name = name;
-    this._description = description;
-    this._category = category;
-    this._creationDate = creationDate;
-    this._rates = rates;
-    this._elements = elements;
-    this._tags = tags;
-    this._lines = lines;
-   // this._nodes = nodes;
+    this.id = id;
+    this.user = user;
+    this.name = name;
+    this.description = description;
+    this.category = category;
+    this.creationDate = creationDate;
+    this.rates = rates;
+    this.elements = elements;
+    this.tags = tags;
+    this.lines = lines;
+    this.nodes = nodes;
   }
 
-  get id():number{
-      return this._id;
+  getId():number{
+      return this.id;
       }
 
-  set id(value:number){
-      this._id=value;
+  setId(value:number){
+      this.id=value;
       }
 
-  get user():User{
-      return this._user;
+  getUser():User{
+      return this.user;
       }
 
-  set user(value:User){
-      this._user=value;
+  setUser(value:User){
+      this.user=value;
       }
 
-  get name():string{
-      return this._name;
+  getName():string{
+      return this.name;
       }
 
-  set name(value:string){
-      this._name=value;
+  setName(value:string){
+      this.name=value;
       }
 
-  get description():string{
-      return this._description;
+  getDescription():string{
+      return this.description;
       }
 
-  set description(value:string){
-      this._description=value;
+  setDescription(value:string){
+      this.description=value;
       }
 
-  get category():string{
-      return this._category;
+  getCategory():string{
+      return this.category;
       }
 
-  set category(value:string){
-      this._category=value;
+  setCategory(value:string){
+      this.category=value;
       }
 
-  get creationDate():number{
-      return this._creationDate;
+  getCreationDate():number{
+      return this.creationDate;
       }
 
-  set creationDate(value:number){
-      this._creationDate=value;
+  setCreationDate(value:number){
+      this.creationDate=value;
       }
 
-  get rates():SchemeRating[]{
-      return this._rates;
+  getRates():SchemeRating[]{
+      return this.rates;
       }
 
-  set rates(value:Array){
-      this._rates=value;
+  setRates(value:Array){
+      this.rates=value;
       }
 
-  get elements():Array<ElementCoordinates>{
-      return this._elements;
+  getElements():Array<ElementCoordinates>{
+      return this.elements;
       }
 
-  set elements(value:Array<ElementCoordinates>){
-      this._elements=value;
+  setElements(value:Array<ElementCoordinates>){
+      this.elements=value;
       }
 
-  get tags():Array<Tag>{
-      return this._tags;
+  getTags():Array<Tag>{
+      return this.tags;
       }
 
-  set tags(value:Array<Tag>){
-      this._tags=value;
+  setTags(value:Array<Tag>){
+      this.tags=value;
       }
 
-  get lines():Array<Line>{
-      return this._lines;
+  getLines():Array<Line>{
+      return this.lines;
       }
 
-  set lines(value:Array<Line>){
-      this._lines=value;
+  setLines(value:Array<Line>){
+      this.lines=value;
       }
 
-  // get nodes():Array<Node>{
-  //     return this._nodes;
-  //     }
-  //
-  // set nodes(value:Array<Node>){
-  //     this._nodes=value;
-  //     }
+  getNodes():Array<Node>{
+      return this.nodes;
+      }
+
+  setNodes(value:Array<Node>){
+      this.nodes=value;
+      }
 }

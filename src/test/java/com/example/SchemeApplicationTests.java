@@ -82,7 +82,7 @@ public class SchemeApplicationTests {
 		}
 		for(long i=0; i<10; i++) {
 			Line line = new Line();
-			line.setScheme(scheme);
+			line.setSchemeId(scheme.getId());
 			line.setxBeginCoordinate(i);
 			line.setyBeginCoordinate(i);
 			line.setxEndCoordinate(i + 2);

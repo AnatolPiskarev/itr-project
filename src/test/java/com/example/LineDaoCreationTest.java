@@ -32,8 +32,8 @@ public class LineDaoCreationTest extends SchemeApplicationTests {
 
     @Test
     public void getLinesBySchemeTest() {
-        assertEquals(lineDao.findByScheme(scheme).size(),((List) lineDao.findAll()).size());
-        assertNotNull(lineDao.findByScheme(scheme).size());
+        assertEquals(lineDao.findBySchemeId(scheme.getId()).size(),((List) lineDao.findAll()).size());
+        assertNotNull(lineDao.findBySchemeId(scheme.getId()).size());
 
     }
 }

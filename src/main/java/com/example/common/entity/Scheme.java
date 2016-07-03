@@ -26,6 +26,10 @@ public class Scheme extends BaseEntity {
     @OneToMany(mappedBy = "schemeId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<SchemeRating> rates;
     @OneToMany(mappedBy = "schemeId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Node> nodes;
+    @OneToMany(mappedBy = "schemeId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Line> lines;
+    @OneToMany(mappedBy = "schemeId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ElementCoordinates> elements;
     @ManyToMany(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name="tag_scheme", joinColumns=@JoinColumn(name="scheme_id"),

@@ -1,4 +1,4 @@
-package com.example.Controller;
+package com.example.controller;
 
 import com.example.common.entity.Scheme;
 import com.example.service.api.SchemeService;

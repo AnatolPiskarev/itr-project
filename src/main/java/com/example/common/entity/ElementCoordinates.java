@@ -21,7 +21,17 @@ public class ElementCoordinates extends  BaseEntity {
     private Long yCoordinate;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Rotation rotation = Rotation.ROTATION_RIGHT;
+    private Rotation rotation;
+    @Column()
+    private String text;
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 
     public Rotation getRotation() {
         return rotation;

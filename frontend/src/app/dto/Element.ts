@@ -1,26 +1,26 @@
 export  class Element {
-    private _id:number;
-    private _name:string;
+    private id:number;
+    private name:string;
 
     constructor(id:number, name:string) {
-        this._id = id;
-        this._name = name;
+        this.id = id;
+        this.name = name;
     }
 
-  get id():number{
-      return this._id;
+  getId():number{
+      return this.id;
       }
 
-  set id(value:number){
-      this._id=value;
+  setId(value:number){
+      this.id=value;
       }
 
-  get name():string{
-      return this._name;
+  getName():string{
+      return this.name;
       }
 
-  set name(value:string){
-      this._name=value;
+  setName(value:string){
+      this.name=value;
       }
 }
 

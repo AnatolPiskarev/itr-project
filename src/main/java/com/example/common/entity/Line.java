@@ -8,9 +8,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "line")
 public class Line extends BaseEntity {
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "scheme_id", nullable = false)
-    private Scheme scheme;
+    @JoinColumn( nullable = false)
+    private Long schemeId;
     @Column(nullable = false)
     private Long xBeginCoordinate;
     @Column(nullable = false)
@@ -20,13 +19,12 @@ public class Line extends BaseEntity {
     @Column(nullable = false)
     private Long yEndCoordinate;
 
-    public Scheme getScheme() {
-        return scheme;
+    public Long getSchemeId() {
+        return schemeId;
     }
 
-    public Scheme setScheme(Scheme scheme) {
-        this.scheme = scheme;
-        return scheme;
+    public void setSchemeId(Long schemeId) {
+        this.schemeId = schemeId;
     }
 
     public Long getxBeginCoordinate() {

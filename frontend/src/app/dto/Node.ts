@@ -1,29 +1,37 @@
 export default class Node {
-  private _id: number;
-  private _xCoordinate: number;
-  private _yCoordinate: number;
+  private id: number;
+  private schemeId: number;
+  private xCoordinate: number;
+  private yCoordinate: number;
 
-  get id():number{
-      return this._id;
+  getId():number{
+      return this.id;
       }
 
-  set id(value:number){
-      this._id=value;
+  setId(value:number){
+      this.id=value;
+      }
+  getSchemeId():number{
+      return this.schemeId;
       }
 
-  get xCoordinate():number{
-      return this._xCoordinate;
+  setSchemeId(value:number){
+      this.schemeId=value;
       }
 
-  set xCoordinate(value:number){
-      this._xCoordinate=value;
+  getXCoordinate():number{
+      return this.xCoordinate;
       }
 
-  get yCoordinate():number{
-      return this._yCoordinate;
+  setXCoordinate(value:number){
+      this.xCoordinate=value;
       }
 
-  set yCoordinate(value:number){
-      this._yCoordinate=value;
+  getYCoordinate():number{
+      return this.yCoordinate;
+      }
+
+  setYCoordinate(value:number){
+      this.yCoordinate=value;
       }
 }

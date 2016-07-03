@@ -1,6 +1,7 @@
 import "rxjs/add/operator/map";
-import {Component, ElementRef, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, ElementRef, AfterViewInit} from '@angular/core';
 import {Http,  Headers, RequestOptions} from "@angular/http";
+import { ActivatedRoute, Router }       from '@angular/router';
 
 import * as d3 from 'd3';
 import {Element} from "../dto/Element";
@@ -10,8 +11,10 @@ import ElementCoordinates from "../dto/ElementCoordinates";
 import Line from "../dto/Line";
 import Scheme from "../dto/Scheme";
 import {saveSchemeComponent} from "./saveScheme.component";
-import Node from "../dto/Node";
 import Tag from "../dto/Tag";
+import User from "../dto/User";
+import Node from "../dto/Node";
+import {ElementService} from "../service/ElementService";
 @Component({
     selector: 'scheme',
     template: require('./scheme.component.html'),
@@ -39,21 +42,49 @@ export class SchemeComponent implements AfterViewInit {
   private nodeId = 0;
   private nodeId = 0;
   private workPanel: string;
-   constructor(private http:Http) {
+  private image: string;
+   constructor(private http:Http/* ,   private route: ActivatedRoute,
+              private router: Router*/) {
+     debugger
     this.getElements();
   }
 
   ngAfterViewInit() {
-    let base = d3.select("#vis");
 
+    let base = d3.select("#vis");
     this.svg = base.append("svg")
       .attr("width", this.width)
       .attr("height", this.height)
-      .attr("style", "background: linear-gradient(mediumvioletred, transparent 1px),  " +
-        "linear-gradient(90deg, mediumvioletred, transparent 1px);" +
-        "background-size: 10px 10px; background-position: center center; border: 2px solid mediumvioletred;");
+      .attr("style", "background: linear-gradient(black, transparent 1px),  " +
+        "linear-gradient(90deg, black, transparent 1px);" +
+        "background-size: 10px 10px; background-position: center center; border: 2px solid black;");
+    let scheme: Scheme;
+    let user: User;
+    // if(this.router.url != "/draw-scheme") {
+    //    let sub = this.route.params.subscribe(params => {
+    //      let user = this.getUserByPseudonym(params['user']); // (+) converts string 'id' to a number
+    //      scheme = this.getSchemeById(+params['scheme']); // (+) converts string 'id' to a number
+    //    });
+    //   if(user != null) this.showUserScheme(scheme);
+   // }
   }
-
+  public showUserScheme(scheme: Scheme) {
+    debugger
+    let elements: Array<ElementCoordinates> = scheme.getElements();
+    let lines: Array<Line> = scheme.getLines();
+    for(var i in elements) {
+      let path: string = "/images/r.png";
+      let position: number = this.getRotation(elements[i].getRotation())
+      let x = elements[i].getXCoordinate();
+      let y = elements[i].getYCoordinate();
+      this.createElement(path, position, x, y);
+    }
+    for(var i  in lines) {
+      let coords: Array<number> =[lines[i].getXBeginCoordinate(), lines[i].getYBeginCoordinate(),
+                                  lines[i].getXEndCoordinate(), lines[i].getYEndCoordinate()];
+      this.createLine(coords);
+    }
+  }
   public showElements() {
     if(this.workPanel=="elements")
       this.workPanel = "";
@@ -67,15 +98,15 @@ export class SchemeComponent implements AfterViewInit {
 
   public getElementByName(name: string): Element {
     for(var i in this.elements) {
-      if(this.elements[i].name == name){
+      if(this.elements[i].getName() == name){
         return this.elements[i];
       }
     }
   }
 
   public save() {
+   this.image = this.svg.html();
       this.showSavePage = true;
-      this.showCanvas = false;
   }
 
   public getNodesFromScheme(): Array<Node> {
@@ -83,8 +114,8 @@ export class SchemeComponent implements AfterViewInit {
     let nodeList:Array<any> = this.svg.selectAll(".node").data();
     for(var i in nodeList) {
       let node: Node = new Node();
-      node.xCoordinate = nodeList[i].x;
-      node.yCoordinate = nodeList[i].y;
+      node.setXCoordinate(nodeList[i].x);
+      node.setYCoordinate(nodeList[i].y);
     }
     return nodes;
   }
@@ -94,10 +125,10 @@ export class SchemeComponent implements AfterViewInit {
     let lineList:Array<any> = this.svg.selectAll(".line").data();
     for(var i in lineList) {
       let line: Line = new Line();
-      line.xBeginCoordinate = lineList[i].startX;
-      line.yBeginCoordinate = lineList[i].startY;
-      line.xEndCoordinate = lineList[i].endX;
-      line.yEndCoordinate = lineList[i].endY;
+      line.setXBeginCoordinate(lineList[i].startX);
+      line.setYBeginCoordinate(lineList[i].startY);
+      line.setXEndCoordinate(lineList[i].endX);
+      line.setYEndCoordinate(lineList[i].endY);
       lines.push(line);
     }
 
@@ -110,22 +141,24 @@ export class SchemeComponent implements AfterViewInit {
     let elementList:Array<any> = this.svg.selectAll(".element").data();
     for(var i in elementList) {
       let element:ElementCoordinates = new ElementCoordinates();
-      element.rotation = elementList[i].rotation;
-      element.xCoordinate = elementList[i].x;
-      element.yCoordinate = elementList[i].y;
-      element.element = this.getElementByName(elementList[i].class +".png");
+      element.setRotation(elementList[i].rotation);
+      element.setXCoordinate(elementList[i].x);
+      element.setYCoordinate(elementList[i].y);
+      element.setElement(this.getElementByName(elementList[i].class +".png"));
       elements.push(element);
     }
     return elements;
   }
 
   public loadElement(path: string) {
+    let dx: number = 0;
+    let dy: number = 0;
     this.workPanel = "instruments";
     this.createBoard();
     this.disableSvgClick();
     let rotationCounter: number = 0;
     var image =  this.svg.append("g")
-      .data([ {"x":0, "y":0, "class":this.getElementName(path),"path": path,
+      .data([ {"x":dx, "y":dy, "class":this.getElementName(path),"path": path,
         "rotation":"left", "rotatable": true, "draggable": false, }])
       .attr("x",0)
       .attr("y",0)
@@ -151,7 +184,7 @@ export class SchemeComponent implements AfterViewInit {
         }
         else {
           image.remove();
-          this.createElement(path, rotationCounter);
+          this.createElement(path, rotationCounter, dx, dy);
         }
       })
     image.attr("transform", function(d) {
@@ -159,13 +192,13 @@ export class SchemeComponent implements AfterViewInit {
     });
   }
 
-  public createElement(path: string, rotationCounter:number) {
+  public createElement(path: string, rotationCounter:number, dx, dy) {
     this.elementId++
     var drag = this.dragElements();
     let x:number = this.startX  + 40;
     let y:number = this.startY +  40;
     var image =  this.svg.append("g")
-      .data([ {"x":0, "y":0, "class":this.getElementName(path),"path": path, "rotation":this.signRotation(rotationCounter), "id" : "element" + this.elementId}])
+      .data([ {"x":dx, "y":dy, "class":this.getElementName(path),"path": path, "rotation":this.signRotation(rotationCounter), "id" : "element" + this.elementId}])
       .attr("x",0)
       .attr("y",0)
       .attr("transform","translate(0,0)")
@@ -187,7 +220,6 @@ export class SchemeComponent implements AfterViewInit {
       return "translate(" + [d.x, d.y] + ")";
     });
   }
-
   public drawNode() {
     this.svg
       .on("click", (d, i) => {
@@ -249,11 +281,13 @@ export class SchemeComponent implements AfterViewInit {
   }
   public subscribeElements(data:any) {
     let elements:Array<Element> = [];
-    for (var i in data) {
-      let element:Element = new Element(data[i].id, data[i].name);
-      elements.push(element);
-      this.elementPath.push("/images/"+element.name);
+    debugger
+    let elementService :ElementService = new ElementService;
+    elements = elementService.getElementsFromJson(data);
+    for(var i in elements) {
+      this.elementPath.push("/images/" + elements[i].getName());
     }
+
     return elements;
   }
   public enableDragEvent() {
@@ -302,11 +336,17 @@ public dragElements():any {
 
 }
 
-  public signRotation(counter): string {
+  public signRotation(counter: number): string {
     if (counter == 0) return "left";
     else if (counter == 1) return "down";
     else if (counter == 2) return "right";
     else if (counter == 3) return "up";
+  }
+  public getRotation(counter: string): number {
+    if (counter == "left") return 0;
+    else if (counter == "down") return 1;
+    else if (counter == "right") return 2;
+    else if (counter == "up") return 3;
   }
   public checkLineCoords(coords) {
 
@@ -531,7 +571,14 @@ public createLine(coords:Array<number>) {
   public getLineEndCoordinates(element: any):Array<number> {
     let coords: Array<number> =[];
   let imageCenter: number = 39.5;
-    if(element.class=="r" || element.class=="c" ||element.class=="l") {
+    if(element.class=="node"){
+      coords.push(element.x,element.y);
+      this.elementOut.push("node")
+    }  else if(element.class=="line"){
+      coords.push(this.xPos, this.yPos);
+      this.elementOut.push("line")
+    }
+    else {
       if(element.rotation=="left") {
         let x:number = this.startX+element.x+imageCenter;
         let y:number = this.startY+element.y+imageCenter;
@@ -544,7 +591,7 @@ public createLine(coords:Array<number>) {
           this.elementOut.push("right")
         }
       }
-     else if(element.rotation=="right") {
+      else if(element.rotation=="right") {
         let x:number = this.startX-element.x+imageCenter;
         let y:number = this.startY-element.y+imageCenter;
         if(x>= this.xPos) {                 //because we rotate element with coordinates
@@ -579,13 +626,6 @@ public createLine(coords:Array<number>) {
         }
       }
     }
-    else if(element.class=="node"){
-      coords.push(element.x,element.y);
-      this.elementOut.push("node")
-    }  else if(element.class=="line"){
-      coords.push(this.xPos, this.yPos);
-      this.elementOut.push("line")
-    }
   return coords;
   }
 
@@ -616,19 +656,22 @@ public createLine(coords:Array<number>) {
       });
   }
   public  createScheme(scheme: Scheme) {
-    scheme.elements = this.getElementsFromScheme()
-    scheme.lines = this.getLinesFromScheme();
-    // scheme.nodes =this.getNodesFromScheme();
-    this.saveScheme(scheme);
+    this.showSavePage=false;
+    scheme.setElements(this.getElementsFromScheme())
+    scheme.setLines(this.getLinesFromScheme());
+    scheme.setNodes(this.getNodesFromScheme());
+   this.saveScheme(scheme);
   }
 
   public saveScheme(scheme: Scheme) {
-    debugger
-   let  tag: Tag = new Tag(1,"hui")
     let saveUrl = "/save-scheme"
-    let body = JSON.stringify(tag);
+    let body = JSON.stringify(scheme);
+    debugger
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Access-Control-Allow-Origin', '*');
     //noinspection TypeScriptUnresolvedFunction
-    this.http.post(saveUrl, body)
+    this.http.post(saveUrl, body, { headers })
       .map(res => res.json())
       .subscribe((env_data) => {
         debugger
