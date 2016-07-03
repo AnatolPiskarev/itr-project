@@ -40,12 +40,10 @@ export class SchemeComponent implements AfterViewInit {
   private elementId = 0;
   private lineId = 0;
   private nodeId = 0;
-  private nodeId = 0;
   private workPanel: string;
   private image: string;
    constructor(private http:Http/* ,   private route: ActivatedRoute,
               private router: Router*/) {
-     debugger
     this.getElements();
   }
 
@@ -69,7 +67,6 @@ export class SchemeComponent implements AfterViewInit {
    // }
   }
   public showUserScheme(scheme: Scheme) {
-    debugger
     let elements: Array<ElementCoordinates> = scheme.getElements();
     let lines: Array<Line> = scheme.getLines();
     for(var i in elements) {
@@ -110,13 +107,18 @@ export class SchemeComponent implements AfterViewInit {
   }
 
   public getNodesFromScheme(): Array<Node> {
+    debugger
     let nodes: Array<Node> = []
     let nodeList:Array<any> = this.svg.selectAll(".node").data();
     for(var i in nodeList) {
       let node: Node = new Node();
+      node.setId(null);
+      node.setSchemeId(null);
       node.setXCoordinate(nodeList[i].x);
       node.setYCoordinate(nodeList[i].y);
+      nodes.push(node);
     }
+debugger
     return nodes;
   }
 
@@ -125,6 +127,8 @@ export class SchemeComponent implements AfterViewInit {
     let lineList:Array<any> = this.svg.selectAll(".line").data();
     for(var i in lineList) {
       let line: Line = new Line();
+      line.setId(null);
+      line.setschemeId(null);
       line.setXBeginCoordinate(lineList[i].startX);
       line.setYBeginCoordinate(lineList[i].startY);
       line.setXEndCoordinate(lineList[i].endX);
@@ -281,7 +285,6 @@ export class SchemeComponent implements AfterViewInit {
   }
   public subscribeElements(data:any) {
     let elements:Array<Element> = [];
-    debugger
     let elementService :ElementService = new ElementService;
     elements = elementService.getElementsFromJson(data);
     for(var i in elements) {
@@ -570,6 +573,10 @@ public createLine(coords:Array<number>) {
 
   public getLineEndCoordinates(element: any):Array<number> {
     let coords: Array<number> =[];
+    if(element == null) {
+      coords.push(this.xPos, this.yPos);
+      return coords;
+    }
   let imageCenter: number = 39.5;
     if(element.class=="node"){
       coords.push(element.x,element.y);
@@ -679,3 +686,5 @@ public createLine(coords:Array<number>) {
       });
   }
 }
+
+

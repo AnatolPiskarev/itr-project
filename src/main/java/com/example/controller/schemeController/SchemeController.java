@@ -17,6 +17,7 @@ import java.util.List;
 public class SchemeController {
     @Autowired
   private  ResourceLoader resourceLoader;
+    @Autowired
     private SchemeService schemeService;
     @Autowired
     private ElementService elementService;

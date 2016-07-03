@@ -36,6 +36,22 @@ public class Scheme extends BaseEntity {
             inverseJoinColumns=@JoinColumn(name="tag_id"))
     private Set<Tag> tags;
 
+    public List<Node> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(List<Node> nodes) {
+        this.nodes = nodes;
+    }
+
+    public List<Line> getLines() {
+        return lines;
+    }
+
+    public void setLines(List<Line> lines) {
+        this.lines = lines;
+    }
+
     public Set<Tag> getTags() {
         return tags;
     }

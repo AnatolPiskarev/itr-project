@@ -8,9 +8,9 @@ public class Node extends BaseEntity {
     @Column(nullable = false)
     private Long schemeId;
     @Column(nullable = false)
-    private Long xBeginCoordinate;
+    private Long xCoordinate;
     @Column(nullable = false)
-    private Long yBeginCoordinate;
+    private Long yCoordinate;
 
     public Long getSchemeId() {
         return schemeId;
@@ -20,19 +20,19 @@ public class Node extends BaseEntity {
         this.schemeId = schemeId;
     }
 
-    public Long getxBeginCoordinate() {
-        return xBeginCoordinate;
+    public Long getxCoordinate() {
+        return xCoordinate;
     }
 
-    public void setxBeginCoordinate(Long xBeginCoordinate) {
-        this.xBeginCoordinate = xBeginCoordinate;
+    public void setxCoordinate(Long xCoordinate) {
+        this.xCoordinate = xCoordinate;
     }
 
-    public Long getyBeginCoordinate() {
-        return yBeginCoordinate;
+    public Long getyCoordinate() {
+        return yCoordinate;
     }
 
-    public void setyBeginCoordinate(Long yBeginCoordinate) {
-        this.yBeginCoordinate = yBeginCoordinate;
+    public void setyCoordinate(Long yCoordinate) {
+        this.yCoordinate = yCoordinate;
     }
 }
