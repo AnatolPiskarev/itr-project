@@ -24,6 +24,7 @@ import {ElementService} from "../service/ElementService";
 export class SchemeComponent implements AfterViewInit {
  private showSavePage: boolean = false;
  private showCanvas: boolean = true;
+  private rightPanel: string = "workPanel";
   private width: number = 1000;
   private height: number = 490;
   private startX = 900;
@@ -42,13 +43,12 @@ export class SchemeComponent implements AfterViewInit {
   private nodeId = 0;
   private workPanel: string;
   private image: string;
-   constructor(private http:Http/* ,   private route: ActivatedRoute,
-              private router: Router*/) {
+   constructor(private http:Http ,   private route: ActivatedRoute,
+              private router: Router) {
     this.getElements();
   }
 
   ngAfterViewInit() {
-
     let base = d3.select("#vis");
     this.svg = base.append("svg")
       .attr("width", this.width)
@@ -681,9 +681,9 @@ public createLine(coords:Array<number>) {
     this.http.post(saveUrl, body, { headers })
       .map(res => res.json())
       .subscribe((env_data) => {
-        debugger
-        console.log(env_data)
-      });
+        let id = env_data.id;
+        this.router.navigateByUrl('scheme/'+ id);
+     });
   }
 }
 

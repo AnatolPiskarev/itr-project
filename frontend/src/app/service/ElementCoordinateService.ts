@@ -2,7 +2,7 @@ import ElementCoordinates from "../dto/ElementCoordinates";
 import {ElementService} from "./ElementService";
 import {Element} from "../dto/Element";
 export class ElementCoordinateService {
-  private elementService: ElementService;
+  private elementService: ElementService = new ElementService();
 
 
   getElementCoordinatesFromJson(data:any):Array<ElementCoordinates> {

@@ -4,11 +4,9 @@ import com.example.common.entity.Scheme;
 import com.example.service.api.ElementService;
 import com.example.service.api.SchemeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringArrayPropertyEditor;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,6 +29,11 @@ public class SchemeController {
     public Scheme saveScheme(@RequestBody Scheme scheme) {
         scheme = schemeService.save(scheme);
         return scheme;
+    }
+
+    @RequestMapping(value = "/get-scheme/{id}", headers = "Accept=application/json")
+    public Scheme getSchemeById(@PathVariable(value = "id") final String id) {
+       return schemeService.getById(Long.parseLong(id));
     }
 
     @RequestMapping(value = "/update-elements")

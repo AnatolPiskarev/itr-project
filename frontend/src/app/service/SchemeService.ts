@@ -13,12 +13,12 @@ import {LineService} from "./LineService";
 import {NodeService} from "./NodeService";
 import Node from "../dto/Node";
 export class SchemeService {
-  private userService: UserService;
-  private schemeRartingService: SchemeRatingService;
-  private tagService: TagService;
-  private elementCoordinateService: ElementCoordinateService;
-  private lineService: LineService;
-  private nodeService: NodeService;
+  private userService: UserService = new UserService();
+  private schemeRartingService: SchemeRatingService = new SchemeRatingService();
+  private tagService: TagService = new TagService();
+  private elementCoordinateService: ElementCoordinateService = new ElementCoordinateService();
+  private lineService: LineService = new LineService();
+  private nodeService: NodeService = new NodeService();
 
   getSchemes(env_data): Array<Scheme> {
     let  schemes: Array<Scheme> = [];
@@ -37,7 +37,7 @@ export class SchemeService {
       let lines: Array<Line> = this.lineService.getLinesFromJson(env_data.lines);
       let nodes: Array<Node> = this.nodeService.getNodesFromJson(env_data.nodes);
 
-      scheme: Scheme = new Scheme(env_data.id, user, env_data.name, env_data.description,
+      scheme = new Scheme(env_data.id, user, env_data.name, env_data.description,
         env_data.category, env_data.creationDate, rates, elements, tags, lines, nodes);
     return scheme;
   }

@@ -1,24 +1,25 @@
 import "rxjs/add/operator/map";
-import {Component, ElementRef, AfterViewInit} from '@angular/core';
+import {Component, ElementRef, AfterViewInit, OnInit} from '@angular/core';
 import {Http,  Headers, RequestOptions} from "@angular/http";
 import { ActivatedRoute, Router }       from '@angular/router';
-
+import { FORM_DIRECTIVES } from '@angular/common';
 import * as d3 from 'd3';
 import {Element} from "../dto/Element";
 import drag = d3.behavior.drag;
-import rotation = d3.geo.rotation;
 import ElementCoordinates from "../dto/ElementCoordinates";
 import Line from "../dto/Line";
 import Scheme from "../dto/Scheme";
 import {saveSchemeComponent} from "./saveScheme.component";
 import User from "../dto/User";
+import { NgForm }    from '@angular/common';
+import {SchemeService} from "../service/SchemeService";
 
 
 @Component({
   selector: 'scheme',
   template: require('./scheme.component.html'),
   styles: [require('./scheme.component.scss')],
-  directives: [saveSchemeComponent]
+  directives: [FORM_DIRECTIVES],
 })
 
 
@@ -36,10 +37,17 @@ export class UserSchemeComponent implements AfterViewInit {
   private lineId = 0;
   private nodeId = 0;
   private nodeId = 0;
-  private workPanel: string;
-  constructor(private http:Http,   private route: ActivatedRoute,
-   private router: Router) {
+  private scheme: Scheme;
+  private schemeService: SchemeService;
+  private rightPanel: string = "commentPanel";
+
+
+
+  constructor(private http:Http, private route: ActivatedRoute) {
     this.getElements();
+     this.route.params.subscribe(params => {
+      this.getSchemeById(params['id']); // (+) converts string 'id' to a number
+    });
   }
 
   ngAfterViewInit() {
@@ -50,15 +58,22 @@ export class UserSchemeComponent implements AfterViewInit {
       .attr("style", "background: linear-gradient(black, transparent 1px),  " +
         "linear-gradient(90deg, black, transparent 1px);" +
         "background-size: 10px 10px; background-position: center center; border: 2px solid black;");
-    let scheme: Scheme;
-    let user: User;
-    if(this.router.url != "/draw-scheme") {
-       let sub = this.route.params.subscribe(params => {
-         //TODO
-         // let user = this.getUserByPseudonym(params['user']); // (+) converts string 'id' to a number
-         // scheme = this.getSchemeById(+params['scheme']); // (+) converts string 'id' to a number
-       });
-    }
+  }
+
+  onSubmit(form:any):void {
+  let comment: Comment
+  }
+
+  public getSchemeById(schemeId) {
+    this.schemeService = new SchemeService
+    //noinspection TypeScriptUnresolvedFunction'
+    this.http.get(`/get-scheme/${schemeId}`)
+    .map(res => res.json())
+    .subscribe((env_data) => {
+      debugger
+      this.scheme = this.schemeService.getScheme(env_data);
+      this.showUserScheme(this.scheme);
+    });
   }
 
   public showUserScheme(scheme: Scheme) {
