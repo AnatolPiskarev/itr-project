@@ -2,6 +2,7 @@ package com.example.common.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.search.annotations.Field;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,6 +15,7 @@ import java.util.Set;
 public class Tag extends BaseEntity {
 
     @Column(nullable = false, unique = true)
+    @Field
     private String name;
     public String getName() {
         return name;

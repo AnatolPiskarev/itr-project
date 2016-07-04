@@ -1,0 +1,27 @@
+<div class="foundSchemes">
+    <h3>Found schemes:</h3>
+    <ul>
+        <div *ngIf="listLength == 0">
+            <h1>Nothing found.</h1>
+        </div>
+        <div *ngIf="listLength > 0">
+            <li *ngFor="let scheme of foundSchemes">
+                <a href = "#">{{scheme.name}}</a>
+                <h1>{{scheme.name}}</h1>
+                <p>Created by: {{scheme.user.nickname}}</p>
+                <p>Category: {{scheme.category}}</p>
+                <p>{{scheme.description}}</p>
+            </li>
+        </div>
+    </ul>
+
+    <ul>
+        <li *ngFor="let scheme of foundSchemes">
+            <a href = "#">{{scheme.name}}</a>
+            <h1>{{scheme.name}}</h1>
+            <p>Created by: {{scheme.user.nickname}}</p>
+            <p>Category: {{scheme.category}}</p>
+            <p>{{scheme.description}}</p>
+        </li>
+    </ul>
+</div>
