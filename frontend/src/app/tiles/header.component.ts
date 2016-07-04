@@ -1,5 +1,7 @@
 import {Component, EventEmitter,  Output} from '@angular/core';
 import TranslationService from '../config/TranslationService';
+import {Router} from '@angular/router'
+
 @Component({
     selector: 'header-app',
     template: require('./header.component.html'),
@@ -14,7 +16,8 @@ export class HeaderComponent {
     private logout: string;
     private signIn: string;
     private scheme: string = 'scheme';
-    constructor() {
+    private value: string = '';
+    constructor(private router: Router) {
       this.load(this.lang);
     }
     public load(lang:string) {
@@ -27,5 +30,17 @@ export class HeaderComponent {
     }
     public showScheme() {
         this.showSchemeSignal.emit(this.scheme);
+    }
+
+    onKey(event:any) {
+        this.value = event.target.value;
+    }
+
+    goSearch() {
+        debugger;
+        if(this.value == '') {
+            return;
+        }
+        this.router.navigateByUrl('search/'+this.value);
     }
 }

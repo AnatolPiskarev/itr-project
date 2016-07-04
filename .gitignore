@@ -12,4 +12,4 @@ jquery-ui-1.11.4.custom/
 *.component.js
 *.js.map
 *.log
-
+*.yml

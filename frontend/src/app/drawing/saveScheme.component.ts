@@ -17,7 +17,7 @@ export class saveSchemeComponent {
   submitted = false;
   categories = ["Vibrators", "Custom"];
   onSubmit(form:any):void {
-    let user = new User(1,"Anatol Piskarev", "Onotole", "tirionlannister1993@gmail.com", "password ","ROLE_ADMIN", false);
+    let user = new User(1,"Anatol Piskarev", "Onotole", "tirionlannister1993@gmail.com", "ROLE_ADMIN", false, 44324324);
     if(form.category==null) form.category = "custom";
     this.submitted = true
     this.scheme= new Scheme(null,user, form.title, form.description, form.category, null, null, null, null, null, null);

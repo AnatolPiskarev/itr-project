@@ -12,6 +12,22 @@
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <div id="custom-search-input col-md-4">
+                        <div class="input-group col-md-4">
+
+                            <input (keyup)="onKey($event)" (keyup.enter)="goSearch()" type="text"
+                                   class="form-control input-lg " id="searchinput" placeholder="Search..." />
+                    <span class="input-group-btn">
+                      <a href="/#/search/{{value}}">
+                        <button class="btn btn-info btn-lg" type="button">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                      </a>
+                    </span>
+                        </div>
+                    </div>
+                </li>
                 <li><a href="/#/draw-scheme">{{newProject}}</a></li>
                 <li><img class="img-responsive" src="#"></li>
                 <li class="dropdown">

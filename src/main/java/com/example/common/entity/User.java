@@ -13,11 +13,14 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String fullName;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String pseudonym;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
+
+    @Column(unique = true)
+    private Long facebookId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -25,9 +28,6 @@ public class User extends BaseEntity {
 
     @Column(nullable = false)
     private Boolean isActive = Boolean.FALSE;
-
-    @Column(nullable = false)
-    private String password;
 
     public String getFullName() {
         return fullName;
@@ -69,11 +69,11 @@ public class User extends BaseEntity {
         isActive = active;
     }
 
-    public String getPassword() {
-        return password;
+    public Long getFacebookId() {
+        return facebookId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setFacebookId(Long facebookId) {
+        this.facebookId = facebookId;
     }
 }
