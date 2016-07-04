@@ -17,7 +17,8 @@ spring:
     datasource:
         password: root
         testWhileIdle: true
-        url: jdbc:mysql://localhost:3306/mydb?autoReconnect=true&useSSL=false
+        url: jdbc:mysql://127.0.0.1:3306/schemeditor?autoReconnect=true&useSSL=false
+#        url: jdbc:mysql://localhost:3306/mydb?autoReconnect=true&useSSL=false
         username: root
         validationQuery: SELECT 1
     jpa:
